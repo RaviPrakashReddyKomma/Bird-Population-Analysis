@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bird Population Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .graph {
+            margin-bottom: 20px;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bird Population Analysis</h1>
+        <div>
+            <h3>Model Performance:</h3>
+            <p><strong>Accuracy:</strong> {{ accuracy }}</p>
+            <pre><strong>Classification Report:</strong>
+{{ classification_rep }}</pre>
+        </div>
+        <div class="graph">
+            <img id="graph" src="{{ url_for('next_graph', graph_id=0) }}?v={{ timestamp }}" alt="Graph" width="100%">
+        </div>
+        <div class="button-container">
+            <button onclick="loadNextGraph()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentGraph = 0;
+        const totalGraphs = 5; // Update to reflect the number of graphs
+
+        function loadNextGraph() {
+            currentGraph += 1;
+            if (currentGraph < totalGraphs) {
+                const imgElement = document.getElementById('graph');
+                const timestamp = new Date().getTime();  // Get current timestamp
+                imgElement.src = `/next/${currentGraph}?v=${timestamp}`;  // Append timestamp as query param
+            } else {
+                alert("No more graphs to display.");
+            }
+        }
+    </script>
+</body>
+</html>
